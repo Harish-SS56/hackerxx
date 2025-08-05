@@ -1,7 +1,7 @@
 [project]
-name = "repl-nix-workspace"
-version = "0.1.0"
-description = "Add your description here"
+name = "hackrx-document-qa-api"
+version = "1.0.0"
+description = "HackRx 6.0 - Intelligent Document Question-Answering API using Gemini Flash 1.5"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.116.1",
@@ -12,10 +12,18 @@ dependencies = [
     "uvicorn>=0.35.0",
 ]
 
-[[tool.uv.index]]
-explicit = true
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
+[tool.setuptools]
+packages = ["app"]
+
+[tool.setuptools.package-data]
+app = ["**/*"]
+
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+hackrx-api = "main:main"
 
 [tool.uv.sources]
 AA-module = [{ index = "pytorch-cpu", marker = "platform_system == 'Linux'" }]
