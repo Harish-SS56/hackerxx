@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class QAService:
     """
-    Main service for document question-answering using Gemini Flash 1.5
+    Main service for document question-answering using Gemini Flash 2.5
     """
     
     def __init__(self):
@@ -37,13 +37,14 @@ class QAService:
     
     def _generate_answer(self, question: str, context: str) -> str:
         """
-        Generate answer using Gemini Flash 1.5
+        Generate answer using Gemini Flash 2.5 with optimized prompt
         """
         try:
-            prompt = f"""Answer the question using only the provided context.
-If the answer is not in the context, reply "Not found in document".
-Do not add any explanations, citations, or additional information.
-Provide only the direct answer.
+            prompt = f"""You are a strict QA assistant. Answer only using the provided context.
+
+If the answer is not found in the context, respond with "" (empty string). 
+Do NOT say "Not found", "not available", or guess the answer.
+Do NOT add extra explanations or citations.
 
 Context:
 {context}
@@ -53,7 +54,7 @@ Question:
 
 Answer:"""
 
-            logger.info(f"Generating answer for question using Gemini")
+            logger.info(f"Generating answer for question using Gemini 2.5 Flash")
             
             response = self.client.models.generate_content(
                 model="gemini-2.5-flash",
@@ -66,20 +67,24 @@ Answer:"""
             
             if not response.text:
                 logger.warning("Empty response from Gemini")
-                return "Not found in document"
+                return ""
             
             answer = response.text.strip()
             
-            # Clean up the answer
+            # Clean up the answer - normalize common not-found patterns
             if answer.lower().startswith("answer:"):
                 answer = answer[7:].strip()
+            
+            # Normalize common not-found patterns to empty string
+            if answer.lower() in ["not found in document", "not found", "n/a", "na", "none", "not available"]:
+                answer = ""
             
             logger.info("Answer generated successfully")
             return answer
             
         except Exception as e:
             logger.error(f"Failed to generate answer: {str(e)}")
-            return "Not found in document"
+            return ""
     
     async def process_qa_request(self, request: QARequest) -> QAResponse:
         """
@@ -117,7 +122,7 @@ Answer:"""
                     
                 except Exception as e:
                     logger.error(f"Failed to process question {i}: {str(e)}")
-                    answers.append("Not found in document")
+                    answers.append("")
             
             # Step 4: Clean up
             self.embedding_service.clear_index()

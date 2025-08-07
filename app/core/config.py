@@ -15,8 +15,8 @@ class Settings(BaseSettings):
     
     # PDF Processing
     MAX_FILE_SIZE: int = 50 * 1024 * 1024  # 50MB
-    CHUNK_SIZE: int = 400  # tokens per chunk
-    CHUNK_OVERLAP: int = 50  # overlap between chunks
+    CHUNK_SIZE: int = 400  # tokens per chunk (optimized for Gemini 2.5)
+    CHUNK_OVERLAP: int = 100  # overlap between chunks (improved for context)
     
     # Vector Search
     TOP_K_CHUNKS: int = 5  # number of chunks to retrieve for context

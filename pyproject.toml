@@ -6,9 +6,11 @@ requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.116.1",
     "google-genai>=1.28.0",
+    "numpy>=2.3.2",
     "pydantic-settings>=2.10.1",
     "pymupdf>=1.26.3",
     "requests>=2.32.4",
+    "setuptools>=80.9.0",
     "uvicorn>=0.35.0",
 ]
 
