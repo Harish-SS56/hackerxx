@@ -1,0 +1,10 @@
+include README.md
+include *.md
+include *.txt
+include .env.example
+include POSTMAN_TESTING.md
+recursive-include app *.py
+global-exclude attached_assets/*
+global-exclude *.pyc
+global-exclude .git/*
+global-exclude __pycache__/*

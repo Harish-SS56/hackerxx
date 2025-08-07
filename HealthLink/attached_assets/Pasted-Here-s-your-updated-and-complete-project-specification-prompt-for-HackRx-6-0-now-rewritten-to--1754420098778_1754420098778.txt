@@ -1,0 +1,238 @@
+Here's your **updated and complete project specification prompt** for HackRx 6.0 — now rewritten to use **Gemini Flash 1.5** via **Google Generative AI** instead of OpenAI GPT-4.
+
+---
+
+# ✅ HackRx 6.0 – Gemini Flash 1.5 Based Project Specification
+
+## 🚨 CRITICAL INSTRUCTIONS FOR DEVELOPER
+
+* ✅ Must be built in **Python**
+* ✅ Must use **FastAPI**
+* ✅ Must support **Postman testing**
+* ✅ Must be **hosted publicly over HTTPS**
+* ✅ Must use **Gemini Flash 1.5** (Google Generative AI API)
+* ❌ Do **not** use JavaScript or Node.js
+
+---
+
+## 🧠 Objective
+
+Build a **Python-based Intelligent Document Question-Answering API** using **Gemini Flash 1.5**.
+
+The API will:
+
+* Accept a **public URL to a PDF**
+* Accept a list of **natural language questions**
+* Extract accurate answers from the PDF using semantic search + Gemini Flash 1.5
+* Return answers in strict format
+
+---
+
+## 🔗 API Details
+
+### ▶️ Endpoint
+
+```http
+POST /hackrx/run
+```
+
+### 🌐 Hosting
+
+* Must be **publicly accessible** via HTTPS
+* Example: `https://your-app-name.replit.app/hackrx/run`
+
+---
+
+### 🔐 Authentication
+
+Use **Bearer Token** in headers:
+
+```http
+Authorization: Bearer <your_secret_api_key>
+Content-Type: application/json
+```
+
+---
+
+## 📥 Request Body (Input Format)
+
+JSON:
+
+```json
+{
+  "documents": "<URL-to-PDF>",
+  "questions": [
+    "Question 1?",
+    "Question 2?",
+    "... up to 10 questions"
+  ]
+}
+```
+
+---
+
+## 📤 Response Body (Output Format)
+
+JSON:
+
+```json
+{
+  "answers": [
+    "Answer to question 1",
+    "Answer to question 2",
+    "... up to 10 answers"
+  ]
+}
+```
+
+✅ Answer **order must match** the question order
+✅ All answers must come from **document context only**
+❌ Do not hallucinate or guess
+
+---
+
+## 🏗️ Required Functional Components
+
+### 1. 🔹 PDF Downloader
+
+* Accepts public URL to PDF
+* Downloads and extracts text
+* Use `PyMuPDF (fitz)` or `pdfplumber`
+
+### 2. 🔹 Chunking + Embedding Generator
+
+* Split text into overlapping chunks (e.g. 300–500 tokens)
+* Generate **embeddings** (using `google.generativeai` or any SentenceTransformer model)
+* Store chunks in **FAISS**
+
+### 3. 🔹 Semantic Search
+
+* For each question:
+
+  * Generate embedding
+  * Search vector DB for relevant chunks (top 5)
+
+### 4. 🔹 Answer Generator (Gemini Flash 1.5)
+
+* Use Gemini Flash 1.5 with the prompt:
+
+  ```text
+  Answer the question using only the provided context.
+  If the answer is not in the context, reply "Not found in document".
+
+  Context:
+  {chunked_text}
+
+  Question:
+  {user_question}
+  ```
+
+* Use `google.generativeai` Python SDK
+
+### 5. 🔹 Response Formatter
+
+* Match output format as described above
+* Return only text answers (no citations or explanation)
+
+---
+
+## 🛠️ Recommended Tech Stack
+
+| Component    | Tool                          |
+| ------------ | ----------------------------- |
+| Language     | **Python 3.11+**              |
+| Framework    | **FastAPI**                   |
+| PDF Parsing  | `PyMuPDF` or `pdfplumber`     |
+| Embeddings   | Gemini or SentenceTransformer |
+| LLM Model    | **Gemini Flash 1.5**          |
+| Vector Store | **FAISS**                     |
+| Auth         | Bearer Token                  |
+| Hosting      | **Render** or **Replit**      |
+
+---
+
+## 📦 `.env` Example
+
+Create a `.env` file:
+
+```env
+GOOGLE_API_KEY=your-gemini-api-key
+```
+
+Load it in your code:
+
+```python
+from dotenv import load_dotenv
+load_dotenv()
+```
+
+---
+
+## 🧪 Postman Testing Instructions
+
+1. Open [Postman](https://postman.com)
+
+2. Create a **POST** request:
+
+   ```
+   https://your-deployment-url/hackrx/run
+   ```
+
+3. Headers:
+
+   | Key           | Value                 |
+   | ------------- | --------------------- |
+   | Authorization | Bearer YOUR\_API\_KEY |
+   | Content-Type  | application/json      |
+
+4. Body (JSON):
+
+```json
+{
+  "documents": "https://hackrx.blob.core.windows.net/assets/sample-policy.pdf",
+  "questions": [
+    "Does this policy cover organ donation expenses?",
+    "What is the waiting period for knee replacement surgery?"
+  ]
+}
+```
+
+---
+
+## ✅ Deployment Checklist
+
+| Requirement                                 | Status   |
+| ------------------------------------------- | -------- |
+| ✅ Python + FastAPI only                     | Required |
+| ✅ Accepts public PDF + list of questions    | Required |
+| ✅ Parses + chunks PDF                       | Required |
+| ✅ Embeds using Gemini / SentenceTransformer | Required |
+| ✅ Uses FAISS for retrieval                  | Required |
+| ✅ Uses Gemini Flash 1.5 for QA              | Required |
+| ✅ No hallucinated answers                   | Required |
+| ✅ Secured with Bearer token                 | Required |
+| ✅ Public HTTPS hosting (Render/Replit)      | Required |
+| ✅ Works via Postman                         | Required |
+| ✅ Responds in 30 seconds                    | Required |
+| ✅ Output format is strict JSON answer array | Required |
+
+---
+
+## 🎯 What to Give Replit/Render Developer
+
+Tell them to:
+
+* Follow this spec exactly
+* Use `google.generativeai` with Gemini Flash 1.5
+* Use `.env` for secret keys
+* Provide:
+
+  * Public endpoint URL
+  * Sample Postman test
+  * Working `/hackrx/run` endpoint
+
+---
+
+Would you like me to now generate a **working FastAPI starter template** using Gemini Flash 1.5 that can be pasted directly into Replit or Render?
+
+Let me know — I’ll send it right away.
