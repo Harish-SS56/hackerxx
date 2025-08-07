@@ -1,0 +1,2 @@
+[console_scripts]
+hackrx-api = main:main

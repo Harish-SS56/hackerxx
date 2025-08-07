@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: hackrx-document-qa-api
+Version: 1.0.0
+Summary: HackRx 6.0 - Intelligent Document Question-Answering API using Gemini Flash 1.5
+Author: HackRx Team
+Requires-Python: >=3.11
+Requires-Dist: fastapi>=0.116.1
+Requires-Dist: google-genai>=1.28.0
+Requires-Dist: numpy>=2.3.2
+Requires-Dist: pydantic-settings>=2.10.1
+Requires-Dist: pymupdf>=1.26.3
+Requires-Dist: requests>=2.32.4
+Requires-Dist: setuptools>=80.9.0
+Requires-Dist: uvicorn>=0.35.0
+Dynamic: author
+Dynamic: requires-python
